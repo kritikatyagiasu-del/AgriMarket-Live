@@ -13,7 +13,7 @@ import {
   BarChart,
   Bar
 } from 'recharts';
-import { MandiPriceRecord, PriceTrendPoint } from '../types';
+import { MandiPriceRecord, PriceTrendPoint, SupportedLanguage } from '../types';
 import { formatPriceByUnit } from '../data/mockMandiData';
 import {
   X,
@@ -27,18 +27,22 @@ import {
   Scale,
   Sparkles
 } from 'lucide-react';
+import { TRANSLATIONS, COMMODITY_LOCALIZED_NAMES } from '../i18n/translations';
 
 interface TrendChartSectionProps {
   selectedRecord: MandiPriceRecord | null;
   onClose: () => void;
   unit: 'quintal' | 'kg' | 'tonne';
+  currentLanguage: SupportedLanguage;
 }
 
 export const TrendChartSection: React.FC<TrendChartSectionProps> = ({
   selectedRecord,
   onClose,
-  unit
+  unit,
+  currentLanguage
 }) => {
+  const t = TRANSLATIONS[currentLanguage] || TRANSLATIONS.en;
   const [timeframeDays, setTimeframeDays] = useState<number>(30);
   const [chartType, setChartType] = useState<'prices' | 'volume' | 'corridor'>('prices');
   const [trendData, setTrendData] = useState<PriceTrendPoint[]>([]);
@@ -68,6 +72,8 @@ export const TrendChartSection: React.FC<TrendChartSectionProps> = ({
   }, [selectedRecord, timeframeDays]);
 
   if (!selectedRecord) return null;
+
+  const localizedCropName = COMMODITY_LOCALIZED_NAMES[selectedRecord.commodity]?.[currentLanguage] || selectedRecord.commodity;
 
   // Transform prices based on unit selected (Quintal / Kg / Tonne)
   const formattedChartData = trendData.map((pt) => {
@@ -102,7 +108,7 @@ export const TrendChartSection: React.FC<TrendChartSectionProps> = ({
   const lastPrice = modalPricesList[modalPricesList.length - 1] || 1;
   const overallTrendPct = (((lastPrice - firstPrice) / firstPrice) * 100).toFixed(1);
 
-  const unitLabel = unit === 'quintal' ? '₹/Quintal' : unit === 'kg' ? '₹/Kg' : '₹/Tonne';
+  const unitLabel = unit === 'quintal' ? t.units.quintal : unit === 'kg' ? t.units.kg : t.units.tonne;
 
   return (
     <div className="fixed inset-0 z-50 bg-slate-900/60 backdrop-blur-sm flex items-center justify-center p-3 sm:p-6 overflow-y-auto">
@@ -116,14 +122,14 @@ export const TrendChartSection: React.FC<TrendChartSectionProps> = ({
                 <LineChartIcon className="w-5 h-5" />
               </span>
               <h2 className="text-xl sm:text-2xl font-bold text-slate-900">
-                {selectedRecord.commodity} Historical Price Analysis
+                {localizedCropName} {t.chartModal.title}
               </h2>
               <span className="px-2.5 py-0.5 rounded-full text-xs font-semibold bg-slate-100 text-slate-700 border border-slate-200">
-                Variety: {selectedRecord.variety}
+                {selectedRecord.variety}
               </span>
             </div>
             <p className="text-xs text-slate-500 mt-1">
-              Market Yard: <strong className="text-slate-800">{selectedRecord.market}</strong> ({selectedRecord.district}, {selectedRecord.state})
+              Market: <strong className="text-slate-800">{selectedRecord.market}</strong> ({selectedRecord.district}, {selectedRecord.state})
             </p>
           </div>
 
@@ -139,7 +145,7 @@ export const TrendChartSection: React.FC<TrendChartSectionProps> = ({
         <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 p-4 bg-slate-50/50 border-b border-slate-200 text-xs">
           <div className="bg-white p-3 rounded-xl border border-slate-200 shadow-sm">
             <div className="text-slate-500 flex items-center justify-between font-medium">
-              <span>Highest Price ({unitLabel})</span>
+              <span>{t.chartModal.sellingPrice} ({unitLabel})</span>
               <ArrowUpRight className="w-4 h-4 text-emerald-600" />
             </div>
             <div className="text-lg font-bold text-emerald-700 mt-1">
@@ -149,7 +155,7 @@ export const TrendChartSection: React.FC<TrendChartSectionProps> = ({
 
           <div className="bg-white p-3 rounded-xl border border-slate-200 shadow-sm">
             <div className="text-slate-500 flex items-center justify-between font-medium">
-              <span>Lowest Price ({unitLabel})</span>
+              <span>{t.chartModal.buyingPrice} ({unitLabel})</span>
               <ArrowDownRight className="w-4 h-4 text-rose-600" />
             </div>
             <div className="text-lg font-bold text-rose-700 mt-1">
@@ -159,7 +165,7 @@ export const TrendChartSection: React.FC<TrendChartSectionProps> = ({
 
           <div className="bg-white p-3 rounded-xl border border-slate-200 shadow-sm">
             <div className="text-slate-500 flex items-center justify-between font-medium">
-              <span>Average Modal Price</span>
+              <span>{t.chartModal.modalPrice}</span>
               <Activity className="w-4 h-4 text-amber-600" />
             </div>
             <div className="text-lg font-bold text-slate-900 mt-1">
@@ -169,7 +175,7 @@ export const TrendChartSection: React.FC<TrendChartSectionProps> = ({
 
           <div className="bg-white p-3 rounded-xl border border-slate-200 shadow-sm">
             <div className="text-slate-500 flex items-center justify-between font-medium">
-              <span>{timeframeDays}-Day Volatility</span>
+              <span>{timeframeDays}-Day {t.chartModal.trendLabel}</span>
               <TrendingUp className="w-4 h-4 text-emerald-600" />
             </div>
             <div className={`text-lg font-bold mt-1 ${Number(overallTrendPct) >= 0 ? 'text-emerald-700' : 'text-rose-700'}`}>
@@ -209,7 +215,7 @@ export const TrendChartSection: React.FC<TrendChartSectionProps> = ({
                   : 'text-slate-600 hover:text-slate-900'
               }`}
             >
-              Buying vs Selling
+              {t.table.colBuying} vs {t.table.colSelling}
             </button>
             <button
               onClick={() => setChartType('corridor')}
@@ -219,7 +225,7 @@ export const TrendChartSection: React.FC<TrendChartSectionProps> = ({
                   : 'text-slate-600 hover:text-slate-900'
               }`}
             >
-              Modal Price Trend
+              {t.table.colModal}
             </button>
             <button
               onClick={() => setChartType('volume')}
@@ -229,7 +235,7 @@ export const TrendChartSection: React.FC<TrendChartSectionProps> = ({
                   : 'text-slate-600 hover:text-slate-900'
               }`}
             >
-              Arrival Volume
+              {t.chartModal.arrivalVolume}
             </button>
           </div>
         </div>
@@ -261,8 +267,8 @@ export const TrendChartSection: React.FC<TrendChartSectionProps> = ({
                     contentStyle={{ backgroundColor: '#ffffff', borderColor: '#e2e8f0', borderRadius: '12px', color: '#0f172a', boxShadow: '0 4px 6px -1px rgb(0 0 0 / 0.1)' }}
                   />
                   <Legend wrapperStyle={{ fontSize: '12px', paddingTop: '10px' }} />
-                  <Area type="monotone" dataKey="sellingPrice" name={`Selling Price (${unitLabel})`} stroke="#059669" fillOpacity={1} fill="url(#colorSell)" strokeWidth={2} />
-                  <Area type="monotone" dataKey="buyingPrice" name={`Buying Price (${unitLabel})`} stroke="#d97706" fillOpacity={1} fill="url(#colorBuy)" strokeWidth={2} />
+                  <Area type="monotone" dataKey="sellingPrice" name={`${t.table.colSelling} (${unitLabel})`} stroke="#059669" fillOpacity={1} fill="url(#colorSell)" strokeWidth={2} />
+                  <Area type="monotone" dataKey="buyingPrice" name={`${t.table.colBuying} (${unitLabel})`} stroke="#d97706" fillOpacity={1} fill="url(#colorBuy)" strokeWidth={2} />
                 </AreaChart>
               ) : chartType === 'corridor' ? (
                 <LineChart data={formattedChartData} margin={{ top: 10, right: 10, left: 0, bottom: 0 }}>
@@ -273,7 +279,7 @@ export const TrendChartSection: React.FC<TrendChartSectionProps> = ({
                     contentStyle={{ backgroundColor: '#ffffff', borderColor: '#e2e8f0', borderRadius: '12px', color: '#0f172a', boxShadow: '0 4px 6px -1px rgb(0 0 0 / 0.1)' }}
                   />
                   <Legend wrapperStyle={{ fontSize: '12px', paddingTop: '10px' }} />
-                  <Line type="monotone" dataKey="modalPrice" name={`Modal Price (${unitLabel})`} stroke="#0284c7" strokeWidth={3} dot={false} />
+                  <Line type="monotone" dataKey="modalPrice" name={`${t.table.colModal} (${unitLabel})`} stroke="#0284c7" strokeWidth={3} dot={false} />
                 </LineChart>
               ) : (
                 <BarChart data={formattedChartData} margin={{ top: 10, right: 10, left: 0, bottom: 0 }}>
@@ -299,7 +305,7 @@ export const TrendChartSection: React.FC<TrendChartSectionProps> = ({
             onClick={onClose}
             className="px-4 py-2 bg-slate-900 hover:bg-slate-800 text-white rounded-xl font-semibold transition-colors"
           >
-            Close Chart
+            {t.chartModal.close}
           </button>
         </div>
 
@@ -307,3 +313,4 @@ export const TrendChartSection: React.FC<TrendChartSectionProps> = ({
     </div>
   );
 };
+

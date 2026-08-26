@@ -56,3 +56,47 @@ export interface MarketInsight {
   recommendedAction: string;
   factors: string[];
 }
+
+export type SupportedLanguage = 
+  | 'en' 
+  | 'hi' 
+  | 'pa' 
+  | 'mr' 
+  | 'gu' 
+  | 'kn' 
+  | 'ta' 
+  | 'te' 
+  | 'bn';
+
+export interface LanguageInfo {
+  code: SupportedLanguage;
+  name: string;
+  nativeName: string;
+  associatedStates: string[];
+  sampleText: string;
+}
+
+export interface UserPreferences {
+  language: SupportedLanguage;
+  state?: string;
+  preferredState?: string;
+  hasCompletedSetup: boolean;
+}
+
+export type UserRole = 'farmer' | 'buyer' | 'exporter';
+
+export interface UserProfile {
+  firstName: string;
+  lastName: string;
+  phone: string;
+  pinCode: string;
+  district: string;
+  state: string;
+  userType: UserRole;
+  emailOrUserId?: string;
+  isGuest: boolean;
+  authProvider?: 'credentials' | 'google' | 'apple' | 'guest';
+  registeredAt?: string;
+}
+
+export type AuthMode = 'choose_auth' | 'signin' | 'register' | 'profile';

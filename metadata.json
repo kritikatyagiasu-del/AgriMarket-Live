@@ -1,6 +1,6 @@
 {
   "name": "AgriMarket Live - Mandi Crop Price Tracker",
   "description": "Real-time Mandi price dashboard and historical trend analyzer for farmers, buyers, and exporters using AGMARKNET dataset.",
-  "requestFramePermissions": [],
+  "requestFramePermissions": ["geolocation"],
   "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
 }

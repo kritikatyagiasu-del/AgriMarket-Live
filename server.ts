@@ -155,45 +155,66 @@ async function startServer() {
   // 4. Server-Side AI Market Insight / Crop Advisory Endpoint (Gemini API)
   app.post('/api/ai/market-insight', async (req, res) => {
     try {
-      const { commodity, state, district, market, buyingPrice, sellingPrice, modalPrice, priceChange7d } = req.body;
+      const { commodity, state, district, market, buyingPrice, sellingPrice, modalPrice, priceChange7d, language = 'en' } = req.body;
 
       const ai = getGeminiClient();
       if (!ai) {
         // Fallback rule-based insight when GEMINI_API_KEY is not configured
+        const isHindi = language === 'hi';
+        const isPunjabi = language === 'pa';
+        const isMarathi = language === 'mr';
+        
+        let trendSummary = `Prices for ${commodity} in ${market || district || state} have moved by ${priceChange7d >= 0 ? '+' : ''}${priceChange7d}% over the past week.`;
+        let recAction = priceChange7d > 2 
+          ? "Consider selling in staggered batches to capitalize on current upward momentum while keeping eye on arrival volumes." 
+          : "Hold stock if moisture levels allow, or target export/wholesale buyers to lock in stable prices.";
+        let factors = [
+          "Local mandi arrival volumes and monsoon transport updates",
+          "Inter-state wholesale demand and processing plant procurement",
+          "Government Minimum Support Price (MSP) benchmarks"
+        ];
+
+        if (isHindi) {
+          trendSummary = `${market || district || state} में ${commodity} के भाव पिछले 7 दिनों में ${priceChange7d >= 0 ? '+' : ''}${priceChange7d}% बदले हैं।`;
+          recAction = priceChange7d > 2
+            ? "वर्तमान तेजी का लाभ उठाने के लिए फसल को किस्तों में बेचें और मंडी आवक पर नज़र रखें।"
+            : "यदि संभव हो तो स्टॉक रोक कर रखें या थोक खरीदारों से निश्चित दर पर सौदा करें।";
+          factors = [
+            "स्थानीय मंडी में दैनिक आवक और परिवहन व्यवस्था",
+            "अंतर-राज्यीय थोक मांग और खाद्य प्रसंस्करण इकाइयों की खरीद",
+            "सरकारी न्यूनतम समर्थन मूल्य (MSP) और गुणवत्ता मानक"
+          ];
+        }
+
         return res.json({
           success: true,
           insight: {
             crop: commodity || "Selected Crop",
-            trendSummary: `Prices for ${commodity} in ${market || district || state} have moved by ${priceChange7d >= 0 ? '+' : ''}${priceChange7d}% over the past week.`,
+            trendSummary,
             priceOutlook: priceChange7d > 2 ? 'bullish' : priceChange7d < -2 ? 'bearish' : 'stable',
             bestSellingMandi: market || "Regional APMC Hub",
-            recommendedAction: priceChange7d > 2 
-              ? "Consider selling in staggered batches to capitalize on current upward momentum while keeping eye on arrival volumes." 
-              : "Hold stock if moisture levels allow, or target export/wholesale buyers to lock in stable prices.",
-            factors: [
-              "Local mandi arrival volumes and monsoon transport updates",
-              "Inter-state wholesale demand and processing plant procurement",
-              "Government Minimum Support Price (MSP) benchmarks"
-            ]
+            recommendedAction: recAction,
+            factors
           }
         });
       }
 
-      const prompt = `You are an expert Indian Agricultural Economist and Mandi Price Analyst. Analyze the following crop market data and provide concise, practical selling/buying advice for farmers, buyers, or exporters:
+      const prompt = `You are an expert Indian Agricultural Economist and Mandi Price Analyst. Analyze the following crop market data and provide concise, practical selling/buying advice for farmers, buyers, or exporters in language code "${language}":
       - Crop/Commodity: ${commodity}
       - Location: Mandi: ${market}, District: ${district}, State: ${state}
       - Current Wholesaler Buying Price: ₹${buyingPrice} / Quintal
       - Current Selling Price: ₹${sellingPrice} / Quintal
       - Modal Price: ₹${modalPrice} / Quintal
       - 7-Day Price Change: ${priceChange7d}%
+      - Target Language: ${language} (Write user-facing text in this language/script if not English)
 
       Return a JSON response with exactly this structure:
       {
-        "trendSummary": "2 short sentences describing the market condition",
+        "trendSummary": "2 short sentences describing the market condition in the requested language",
         "priceOutlook": "bullish" | "bearish" | "stable",
         "bestSellingMandi": "Recommended nearby high-demand mandi name or regional hub",
-        "recommendedAction": "Actionable 1-2 sentence recommendation for the farmer or trader",
-        "factors": ["Factor 1", "Factor 2", "Factor 3"]
+        "recommendedAction": "Actionable 1-2 sentence recommendation for the farmer or trader in the requested language",
+        "factors": ["Factor 1 in target language", "Factor 2 in target language", "Factor 3 in target language"]
       }`;
 
       const response = await ai.models.generateContent({

@@ -1,6 +1,7 @@
 import React from 'react';
 import { Search, MapPin, Building2, Store, SlidersHorizontal, Scale, XCircle } from 'lucide-react';
-import { StateDistrictMandiMap, MandiFilterState } from '../types';
+import { StateDistrictMandiMap, MandiFilterState, SupportedLanguage } from '../types';
+import { TRANSLATIONS } from '../i18n/translations';
 
 interface FilterSectionProps {
   locationsMap: StateDistrictMandiMap;
@@ -8,6 +9,7 @@ interface FilterSectionProps {
   onFilterChange: (updated: Partial<MandiFilterState>) => void;
   onResetFilters: () => void;
   totalResultsCount: number;
+  currentLanguage: SupportedLanguage;
 }
 
 const CATEGORIES = [
@@ -25,8 +27,10 @@ export const FilterSection: React.FC<FilterSectionProps> = ({
   filters,
   onFilterChange,
   onResetFilters,
-  totalResultsCount
+  totalResultsCount,
+  currentLanguage
 }) => {
+  const t = TRANSLATIONS[currentLanguage] || TRANSLATIONS.en;
   const statesList = Object.keys(locationsMap);
 
   // Available districts based on selected state
@@ -68,6 +72,20 @@ export const FilterSection: React.FC<FilterSectionProps> = ({
                      filters.category !== 'All Categories' || 
                      filters.searchQuery.trim().length > 0;
 
+  // Localized category display
+  const getCategoryLabel = (cat: string) => {
+    switch (cat) {
+      case 'All Categories': return t.categories.all;
+      case 'Cereals & Pulses': return t.categories.cereals;
+      case 'Vegetables': return t.categories.vegetables;
+      case 'Fruits': return t.categories.fruits;
+      case 'Oilseeds': return t.categories.oilseeds;
+      case 'Spices & Cash Crops': return t.categories.spices;
+      case 'Commercial & Sugarcane': return t.categories.commercial;
+      default: return cat;
+    }
+  };
+
   return (
     <section className="bg-white border border-slate-200/90 rounded-2xl p-4 sm:p-6 shadow-sm mb-6">
       {/* Top Search Bar & Unit Selector */}
@@ -82,7 +100,7 @@ export const FilterSection: React.FC<FilterSectionProps> = ({
             type="text"
             value={filters.searchQuery}
             onChange={(e) => onFilterChange({ searchQuery: e.target.value })}
-            placeholder="Search crop, variety, mandi, or district (e.g., Wheat, Lokwan, Lasalgaon, Nashik)..."
+            placeholder={t.filters.searchPlaceholder}
             className="w-full pl-10 pr-10 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-slate-900 placeholder-slate-400 text-sm focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500 focus:bg-white transition-all"
           />
           {filters.searchQuery && (
@@ -99,7 +117,7 @@ export const FilterSection: React.FC<FilterSectionProps> = ({
         <div className="flex items-center gap-2 self-end lg:self-center bg-slate-100 p-1.5 rounded-xl border border-slate-200">
           <div className="flex items-center gap-1.5 px-2 text-xs font-semibold text-slate-600">
             <Scale className="w-3.5 h-3.5 text-emerald-600" />
-            <span>Unit:</span>
+            <span>{t.filters.unitLabel}</span>
           </div>
           {(['quintal', 'kg', 'tonne'] as const).map((u) => (
             <button
@@ -111,7 +129,7 @@ export const FilterSection: React.FC<FilterSectionProps> = ({
                   : 'text-slate-600 hover:text-slate-900 hover:bg-slate-200/60'
               }`}
             >
-              {u === 'quintal' ? '₹/Quintal (100kg)' : u === 'kg' ? '₹/Kg' : '₹/Tonne'}
+              {u === 'quintal' ? t.units.quintal : u === 'kg' ? t.units.kg : t.units.tonne}
             </button>
           ))}
         </div>
@@ -125,14 +143,14 @@ export const FilterSection: React.FC<FilterSectionProps> = ({
         <div className="space-y-1.5">
           <label className="text-xs font-bold text-slate-700 flex items-center gap-1.5">
             <MapPin className="w-3.5 h-3.5 text-emerald-600" />
-            State
+            {t.filters.stateLabel}
           </label>
           <select
             value={filters.state}
             onChange={handleStateChange}
             className="w-full bg-slate-50 border border-slate-200 rounded-xl px-3 py-2 text-sm text-slate-900 focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:bg-white transition-all cursor-pointer font-medium"
           >
-            <option value="All States">All States ({statesList.length} States Available)</option>
+            <option value="All States">{t.filters.allStates} ({statesList.length} States)</option>
             {statesList.map((st) => (
               <option key={st} value={st}>
                 {st}
@@ -145,7 +163,7 @@ export const FilterSection: React.FC<FilterSectionProps> = ({
         <div className="space-y-1.5">
           <label className="text-xs font-bold text-slate-700 flex items-center gap-1.5">
             <Building2 className="w-3.5 h-3.5 text-emerald-600" />
-            District
+            {t.filters.districtLabel}
           </label>
           <select
             value={filters.district}
@@ -155,8 +173,8 @@ export const FilterSection: React.FC<FilterSectionProps> = ({
           >
             <option value="All Districts">
               {filters.state === 'All States' 
-                ? 'Select a State first...' 
-                : `All Districts in ${filters.state}`}
+                ? `${t.filters.districtLabel}...` 
+                : `${t.filters.allDistricts} (${filters.state})`}
             </option>
             {availableDistricts.map((dist) => (
               <option key={dist} value={dist}>
@@ -170,7 +188,7 @@ export const FilterSection: React.FC<FilterSectionProps> = ({
         <div className="space-y-1.5">
           <label className="text-xs font-bold text-slate-700 flex items-center gap-1.5">
             <Store className="w-3.5 h-3.5 text-emerald-600" />
-            Mandi (Market)
+            {t.filters.mandiLabel}
           </label>
           <select
             value={filters.mandi}
@@ -180,8 +198,8 @@ export const FilterSection: React.FC<FilterSectionProps> = ({
           >
             <option value="All Mandis">
               {filters.district === 'All Districts' 
-                ? 'Select a District first...' 
-                : `All Mandis in ${filters.district}`}
+                ? `${t.filters.mandiLabel}...` 
+                : `${t.filters.allMandis} (${filters.district})`}
             </option>
             {availableMandis.map((m) => (
               <option key={m} value={m}>
@@ -200,7 +218,7 @@ export const FilterSection: React.FC<FilterSectionProps> = ({
         <div className="flex items-center gap-1.5 overflow-x-auto w-full sm:w-auto pb-1 sm:pb-0 scrollbar-none">
           <span className="text-xs text-slate-500 font-semibold whitespace-nowrap mr-1 flex items-center gap-1">
             <SlidersHorizontal className="w-3 h-3 text-slate-500" />
-            Category:
+            {t.filters.allCategories}:
           </span>
           {CATEGORIES.map((cat) => (
             <button
@@ -212,7 +230,7 @@ export const FilterSection: React.FC<FilterSectionProps> = ({
                   : 'bg-slate-100 text-slate-700 hover:bg-slate-200 hover:text-slate-900'
               }`}
             >
-              {cat}
+              {getCategoryLabel(cat)}
             </button>
           ))}
         </div>
@@ -220,14 +238,14 @@ export const FilterSection: React.FC<FilterSectionProps> = ({
         {/* Status / Reset */}
         <div className="flex items-center gap-3 self-end sm:self-center shrink-0">
           <span className="text-xs text-slate-500">
-            Showing <strong className="text-emerald-700 font-bold">{totalResultsCount}</strong> crops
+            {t.filters.showing} <strong className="text-emerald-700 font-bold">{totalResultsCount}</strong> {t.filters.records}
           </span>
           {isFiltered && (
             <button
               onClick={onResetFilters}
               className="text-xs font-semibold text-rose-600 hover:text-rose-700 underline underline-offset-2 transition-colors"
             >
-              Reset Filters
+              {t.filters.resetFilters}
             </button>
           )}
         </div>
@@ -237,3 +255,4 @@ export const FilterSection: React.FC<FilterSectionProps> = ({
     </section>
   );
 };
+

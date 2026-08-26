@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { MandiPriceRecord, MarketInsight } from '../types';
+import { MandiPriceRecord, MarketInsight, SupportedLanguage } from '../types';
 import {
   Sparkles,
   X,
@@ -12,16 +12,20 @@ import {
   ShieldAlert,
   Loader2
 } from 'lucide-react';
+import { TRANSLATIONS, COMMODITY_LOCALIZED_NAMES } from '../i18n/translations';
 
 interface MarketInsightModalProps {
   record: MandiPriceRecord | null;
   onClose: () => void;
+  currentLanguage: SupportedLanguage;
 }
 
 export const MarketInsightModal: React.FC<MarketInsightModalProps> = ({
   record,
-  onClose
+  onClose,
+  currentLanguage
 }) => {
+  const t = TRANSLATIONS[currentLanguage] || TRANSLATIONS.en;
   const [insight, setInsight] = useState<MarketInsight | null>(null);
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [error, setError] = useState<string | null>(null);
@@ -44,7 +48,8 @@ export const MarketInsightModal: React.FC<MarketInsightModalProps> = ({
             buyingPrice: record!.buyingPrice,
             sellingPrice: record!.sellingPrice,
             modalPrice: record!.modalPrice,
-            priceChange7d: record!.priceChange7d
+            priceChange7d: record!.priceChange7d,
+            language: currentLanguage
           })
         });
 
@@ -62,9 +67,11 @@ export const MarketInsightModal: React.FC<MarketInsightModalProps> = ({
     }
 
     generateInsight();
-  }, [record]);
+  }, [record, currentLanguage]);
 
   if (!record) return null;
+
+  const localizedCropName = COMMODITY_LOCALIZED_NAMES[record.commodity]?.[currentLanguage] || record.commodity;
 
   return (
     <div className="fixed inset-0 z-50 bg-slate-900/60 backdrop-blur-sm flex items-center justify-center p-4 overflow-y-auto">
@@ -78,10 +85,10 @@ export const MarketInsightModal: React.FC<MarketInsightModalProps> = ({
             </div>
             <div>
               <h2 className="text-lg font-bold text-slate-900 flex items-center gap-2">
-                AI Market Advisory & Forecast
+                {t.insightModal.title}
               </h2>
               <p className="text-xs text-slate-500">
-                {record.commodity} ({record.variety}) • {record.market}
+                {localizedCropName} ({record.variety}) • {record.market}
               </p>
             </div>
           </div>
@@ -99,7 +106,7 @@ export const MarketInsightModal: React.FC<MarketInsightModalProps> = ({
           {isLoading ? (
             <div className="py-12 flex flex-col items-center justify-center text-slate-500 space-y-3">
               <Loader2 className="w-8 h-8 text-amber-600 animate-spin" />
-              <p className="text-sm font-medium">Analyzing market trends & prices for {record.commodity}...</p>
+              <p className="text-sm font-medium">Analyzing market trends & prices for {localizedCropName}...</p>
             </div>
           ) : error ? (
             <div className="p-4 bg-rose-50 border border-rose-200 rounded-xl text-rose-800 text-xs flex items-center gap-2 font-medium">
@@ -112,7 +119,7 @@ export const MarketInsightModal: React.FC<MarketInsightModalProps> = ({
               <div className="p-4 bg-slate-50 rounded-xl border border-slate-200 space-y-2">
                 <div className="flex items-center justify-between">
                   <span className="text-xs font-bold text-slate-500 uppercase tracking-wider">
-                    Market Outlook
+                    {t.insightModal.marketOutlook}
                   </span>
                   <div
                     className={`px-3 py-1 rounded-full text-xs font-bold uppercase tracking-wider flex items-center gap-1.5 ${
@@ -130,7 +137,7 @@ export const MarketInsightModal: React.FC<MarketInsightModalProps> = ({
                     ) : (
                       <Minus className="w-3.5 h-3.5" />
                     )}
-                    {insight.priceOutlook}
+                    {insight.priceOutlook === 'bullish' ? t.insightModal.bullish : insight.priceOutlook === 'bearish' ? t.insightModal.bearish : t.insightModal.stable}
                   </div>
                 </div>
                 <p className="text-sm text-slate-800 leading-relaxed font-semibold">
@@ -142,7 +149,7 @@ export const MarketInsightModal: React.FC<MarketInsightModalProps> = ({
               <div className="p-4 bg-emerald-50/70 border border-emerald-200 rounded-xl space-y-2">
                 <div className="flex items-center gap-2 text-emerald-800 font-bold text-sm">
                   <Lightbulb className="w-4 h-4 text-emerald-600" />
-                  <span>Recommended Action for Sellers / Buyers</span>
+                  <span>{t.insightModal.recommendedAction}</span>
                 </div>
                 <p className="text-xs text-slate-700 leading-relaxed font-medium">
                   {insight.recommendedAction}
@@ -154,7 +161,7 @@ export const MarketInsightModal: React.FC<MarketInsightModalProps> = ({
                 <div className="p-3.5 bg-slate-50 rounded-xl border border-slate-200">
                   <div className="text-xs text-slate-500 font-semibold mb-1 flex items-center gap-1.5">
                     <Store className="w-3.5 h-3.5 text-emerald-600" />
-                    Target Mandi Hub
+                    {t.insightModal.bestAlternative}
                   </div>
                   <div className="text-sm font-bold text-slate-900">
                     {insight.bestSellingMandi}
@@ -164,7 +171,7 @@ export const MarketInsightModal: React.FC<MarketInsightModalProps> = ({
                 <div className="p-3.5 bg-slate-50 rounded-xl border border-slate-200">
                   <div className="text-xs text-slate-500 font-semibold mb-1 flex items-center gap-1.5">
                     <CheckCircle2 className="w-3.5 h-3.5 text-emerald-600" />
-                    Price Drivers
+                    {t.insightModal.keyFactors}
                   </div>
                   <ul className="text-[11px] text-slate-700 space-y-1 list-disc list-inside font-medium">
                     {insight.factors.slice(0, 3).map((f, i) => (
@@ -183,7 +190,7 @@ export const MarketInsightModal: React.FC<MarketInsightModalProps> = ({
             onClick={onClose}
             className="px-4 py-2 bg-emerald-600 hover:bg-emerald-700 text-white font-bold rounded-xl text-xs transition-colors shadow-sm"
           >
-            Got It
+            {t.insightModal.close}
           </button>
         </div>
 
@@ -191,3 +198,4 @@ export const MarketInsightModal: React.FC<MarketInsightModalProps> = ({
     </div>
   );
 };
+
