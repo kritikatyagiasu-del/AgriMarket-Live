@@ -1,4 +1,4 @@
-🌾 AgriMarket Live - Mandi Crop Price Tracker
+🌾 **AgriMarket Live - Mandi Crop Price Tracker**
 ![Image](https://img.shields.io/badge/License-MIT-emerald.svg)
 ![Image](https://img.shields.io/badge/React-19.0-blue.svg)
 ![Image](https://img.shields.io/badge/TypeScript-5.8-blue.svg)
@@ -7,7 +7,7 @@
 
 An intelligent, real-time agricultural mandi price dashboard, arbitrage finder, and AI market trend advisor tailored for Farmers, Wholesalers/Traders, and Exporters across India. Powered by AGMARKNET data structures and Google Gemini 2.5 AI.
 
-🌟 Key Features
+🌟 **Key Features**
 
 1. 🇮🇳 9-Language Multilingual & Regional Localization
 Full interface, crop names, market terminology, and AI advisory available in:
@@ -74,14 +74,15 @@ Social Sign-in via Google and Apple ID.
 
 Fast Guest mode for instant rate lookups without sign-up.
 
-🏗️ Architecture & Tech Stack
+🏗️ **Architecture & Tech Stack**
 **Layer	                           Technologies**
 Frontend	                       React 19, TypeScript, Tailwind CSS v4, Lucide Icons, Recharts, Motion
 Backend	                         Node.js Express, Vite dev middleware
 AI & LLM	                       @google/genai TypeScript SDK (Gemini 2.5 Flash) with fallback heuristics
 Data Source	                     AGMARKNET APMC schema with live filtering and historical trend synthesis
 Internationalization	           Complete type-safe i18n engine across 9 Indian regional languages
-📁 Project Structure
+
+📁 **Project Structure**
 Code
 ├── server.ts                   # Express backend with API routes & Vite middleware
 ├── src/
