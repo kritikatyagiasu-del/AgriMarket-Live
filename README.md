@@ -83,29 +83,34 @@ Data Source	                     AGMARKNET APMC schema with live filtering and h
 Internationalization	           Complete type-safe i18n engine across 9 Indian regional languages
 
 📁 **Project Structure**
-├── server.ts                   # Express backend with API routes & Vite middleware
+```text
+├── server.ts # Express backend with API routes &amp; Vite middleware
 ├── src/
-│   ├── App.tsx                 # Core application shell & state orchestration
-│   ├── main.tsx                # React DOM root entry
-│   ├── types.ts                # TypeScript interfaces (Mandi, User, i18n)
-│   ├── index.css               # Tailwind CSS v4 directives & theme styles
-│   ├── components/
-│   │   ├── Header.tsx          # Navigation header, language toggle & user profile
-│   │   ├── FilterSection.tsx   # State, District, Mandi, and Category cascading dropdowns
-│   │   ├── PriceTable.tsx      # Live price table with role-specific buying/selling rates
-│   │   ├── TrendChartSection.tsx # Recharts modal with historical 7d/15d/30d analytics
-│   │   ├── BestMandiFinder.tsx # Inter-mandi comparison & arbitrage calculator
-│   │   ├── MarketInsightModal.tsx # Gemini AI market analysis & selling recommendations
-│   │   ├── AuthOnboardingModal.tsx # Sign in, Sign up (PIN code lookup), & Role selection
-│   │   └── LanguageLocationModal.tsx # Language selector & GPS state auto-detection
-│   ├── data/
-│   │   └── mockMandiData.ts    # Comprehensive AGMARKNET-aligned APMC dataset
-│   └── i18n/
-│       └── translations.ts     # Localization dictionaries across 9 languages
+│ ├── App.tsx # Core application shell &amp; state orchestration
+│ ├── main.tsx # React DOM root entry
+│ ├── types.ts # TypeScript interfaces (Mandi, User, i18n)
+│ ├── index.css # Tailwind CSS v4 directives &amp; theme styles
+│ ├── components/
+│ │ ├── Header.tsx # Navigation header, language toggle &amp; user profile
+│ │ ├── FilterSection.tsx # State, District, Mandi, and Category cascading dropdowns
+│ │ ├── PriceTable.tsx # Live price table with role-specific buying/selling rates
+│ │ ├── TrendChartSection.tsx # Recharts modal with historical 7d/15d/30d analytics
+│ │ ├── BestMandiFinder.tsx # Inter-mandi comparison &amp; arbitrage calculator
+│ │ ├── MarketInsightModal.tsx # Gemini AI market analysis &amp; selling recommendations
+│ │ ├── AuthOnboardingModal.tsx # Sign in, Sign up (PIN code lookup), &amp; Role selection
+│ │ └── LanguageLocationModal.tsx # Language selector &amp; GPS state auto-detection
+│ ├── data/
+│ │ ├── mockMandiData.ts # Comprehensive AGMARKNET-aligned APMC dataset
+│ │ └── pincodeData.ts # Indian PIN code to State &amp; District lookup
+│ └── i18n/
+│ ├── translations.ts # Core localization dictionaries across 9 languages
+│ ├── authTranslations.ts # Authentication &amp; onboarding translations
+│ └── entityTranslations.ts # Multilingual crop names, varieties &amp; mandis
 ├── package.json
 ├── metadata.json
 ├── tsconfig.json
 └── vite.config.ts
+```
 
 🚀 Getting Started
 
