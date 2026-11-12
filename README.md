@@ -83,7 +83,6 @@ Data Source	                     AGMARKNET APMC schema with live filtering and h
 Internationalization	           Complete type-safe i18n engine across 9 Indian regional languages
 
 📁 **Project Structure**
-Code
 ├── server.ts                   # Express backend with API routes & Vite middleware
 ├── src/
 │   ├── App.tsx                 # Core application shell & state orchestration
@@ -107,6 +106,7 @@ Code
 ├── metadata.json
 ├── tsconfig.json
 └── vite.config.ts
+
 🚀 Getting Started
 
 Prerequisites
