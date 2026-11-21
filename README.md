@@ -9,6 +9,8 @@
 
 A mandi price dashboard, best-mandi finder and AI market advisor for farmers, wholesalers/traders and exporters across India, designed around the AGMARKNET data format and powered by Google Gemini 2.5 Flash.
 
+**Product thinking:** [Retrospective PRD](docs/AgriMarket_PRD.md) covering users, success metrics, AI risk guardrails and DPDP privacy requirements for a real launch.
+
 **How it was built:** with AI coding tools (Google AI Studio). I defined the users, the requirements and the feature set, and tested the flows.
 
 🌟 **Key Features**
@@ -48,7 +50,7 @@ Daily Arrival Volumes: Displays daily truckloads and metric tonnes arriving at A
 3. 🎯 Best Mandi Finder (Arbitrage & Profit Optimizer)
 Compare crop rates across multiple markets in the same or neighboring districts.
 
-Calculates price differentials and highlights top-earning mandis after estimated transport costs.
+Compares selling prices across mandis and highlights the highest-paying one (transport costs are not yet included).
 
 Identifies the highest-paying market to help farmers maximize crop returns.
 
