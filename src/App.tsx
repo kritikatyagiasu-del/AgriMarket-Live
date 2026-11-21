@@ -425,7 +425,7 @@ export default function App() {
           </div>
           <div className="text-slate-500 flex items-center gap-1.5">
             <Info className="w-3.5 h-3.5 text-slate-400" />
-            <span>Resource Endpoint: <code className="text-slate-800 bg-slate-100 border border-slate-200 px-1.5 py-0.5 rounded text-[11px] font-mono">/resource/9ef84268-d588-465a-a308-a864a43d0070</code></span>
+            <span>Planned live feed (not yet connected): <code className="text-slate-800 bg-slate-100 border border-slate-200 px-1.5 py-0.5 rounded text-[11px] font-mono">/resource/9ef84268-d588-465a-a308-a864a43d0070</code></span>
           </div>
         </div>
       </footer>

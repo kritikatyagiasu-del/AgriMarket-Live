@@ -1,11 +1,15 @@
-🌾 **AgriMarket Live - Mandi Crop Price Tracker**
+🌾 **AgriMarket - Mandi Crop Price Advisor (prototype)**
 ![Image](https://img.shields.io/badge/License-MIT-emerald.svg)
 ![Image](https://img.shields.io/badge/React-19.0-blue.svg)
 ![Image](https://img.shields.io/badge/TypeScript-5.8-blue.svg)
 ![Image](https://img.shields.io/badge/TailwindCSS-v4-cyan.svg)
 ![Image](https://img.shields.io/badge/Google%20Gen%20AI-Gemini%202.5%20Flash-orange.svg)
 
-An intelligent, real-time agricultural mandi price dashboard, arbitrage finder, and AI market trend advisor tailored for Farmers, Wholesalers/Traders, and Exporters across India. Powered by AGMARKNET data structures and Google Gemini 2.5 AI.
+> **Status: prototype on simulated data.** Prices are generated from a seeded simulation in `src/data/mockMandiData.ts` that follows the AGMARKNET data format. The app is not yet connected to the live data.gov.in feed; that integration is the next step.
+
+A mandi price dashboard, best-mandi finder and AI market advisor for farmers, wholesalers/traders and exporters across India, designed around the AGMARKNET data format and powered by Google Gemini 2.5 Flash.
+
+**How it was built:** with AI coding tools (Google AI Studio). I defined the users, the requirements and the feature set, and tested the flows.
 
 🌟 **Key Features**
 
@@ -32,7 +36,7 @@ English
 
 Includes automated GPS geolocation and postal PIN code state detection with native dialect suggestions.
 
-2. 📊 Live Mandi Price Tracking & Transparency
+2. 📊 Mandi Price Tracking & Transparency
 Buy vs Sell vs Modal Prices: Clearly displays Wholesaler Buying Rates (what traders pay) and Farmer Selling Rates (what farmers earn) per Quintal.
 
 Hierarchical Cascading Filter: Filter by State, District, Mandi, Crop Category (Cereals, Pulses, Oilseeds, Vegetables, Fruits, Spices, Cash Crops), and free-text search.
@@ -79,7 +83,7 @@ Fast Guest mode for instant rate lookups without sign-up.
 Frontend	                       React 19, TypeScript, Tailwind CSS v4, Lucide Icons, Recharts, Motion
 Backend	                         Node.js Express, Vite dev middleware
 AI & LLM	                       @google/genai TypeScript SDK (Gemini 2.5 Flash) with fallback heuristics
-Data Source	                     AGMARKNET APMC schema with live filtering and historical trend synthesis
+Data Source	                     Simulated prices in the AGMARKNET APMC schema, with filtering and synthetic 7-day trends
 Internationalization	           Complete type-safe i18n engine across 9 Indian regional languages
 
 📁 **Project Structure**
@@ -93,7 +97,7 @@ Internationalization	           Complete type-safe i18n engine across 9 Indian r
 │ ├── components/
 │ │ ├── Header.tsx # Navigation header, language toggle &amp; user profile
 │ │ ├── FilterSection.tsx # State, District, Mandi, and Category cascading dropdowns
-│ │ ├── PriceTable.tsx # Live price table with role-specific buying/selling rates
+│ │ ├── PriceTable.tsx # Price table with role-specific buying/selling rates
 │ │ ├── TrendChartSection.tsx # Recharts modal with historical 7d/15d/30d analytics
 │ │ ├── BestMandiFinder.tsx # Inter-mandi comparison &amp; arbitrage calculator
 │ │ ├── MarketInsightModal.tsx # Gemini AI market analysis &amp; selling recommendations
@@ -140,7 +144,7 @@ Ini
 # Required for AI Market Insights (Gemini 2.5 Flash)
 GEMINI_API_KEY="your_google_gemini_api_key_here"
 
-# Optional AGMARKNET API Key for data.gov.in
+# Reserved for the planned live AGMARKNET feed (data.gov.in); not used by the prototype yet
 DATA_GOV_IN_API_KEY=""
 Note: If GEMINI_API_KEY is not provided, the application gracefully falls back to built-in rule-based agricultural market insights.
 Start the Development Server:
@@ -157,7 +161,7 @@ npm start
 📡 API Endpoints
 Method	Endpoint	Description
 GET	/api/mandi/locations	Returns cascading States, Districts, and Mandis structure
-GET	/api/mandi/prices	Fetches filtered & sorted live mandi crop rates
+GET	/api/mandi/prices	Returns filtered & sorted mandi crop rates (simulated)
 GET	/api/mandi/history	Returns historical price trend points (7, 15, or 30 days)
 POST	/api/ai/market-insight	Gemini AI-driven crop trend summary and trading recommendations
 🤝 Contributing

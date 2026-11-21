@@ -50,10 +50,10 @@ export const Header: React.FC<HeaderProps> = ({
             <div>
               <div className="flex items-center gap-2 flex-wrap">
                 <h1 className="text-xl sm:text-2xl font-bold tracking-tight text-white">
-                  AgriMarket <span className="text-emerald-400">Live</span>
+                  AgriMarket <span className="text-emerald-400">Demo</span>
                 </h1>
                 <span className="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full text-xs font-medium bg-emerald-950 border border-emerald-800/60 text-emerald-300">
-                  <Radio className="w-3 h-3 text-emerald-400 animate-pulse" />
+                  <Radio className="w-3 h-3 text-emerald-400" />
                   {t.agmarknetSync}
                 </span>
               </div>

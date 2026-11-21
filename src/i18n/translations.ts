@@ -267,7 +267,7 @@ export const TRANSLATIONS: Record<SupportedLanguage, TranslationDictionary> = {
   en: {
     appName: 'AgriMarket Live',
     appSubtitle: 'Mandi Crop Price Tracker & Trade Analytics',
-    agmarknetSync: 'AGMARKNET Sync',
+    agmarknetSync: 'Demo data',
     liveBadge: 'Live Mandi Prices',
     roles: {
       farmer: '🌾 Farmer',
@@ -404,7 +404,7 @@ export const TRANSLATIONS: Record<SupportedLanguage, TranslationDictionary> = {
   hi: {
     appName: 'एग्रीमार्केट लाइव',
     appSubtitle: 'मंडी भाव ट्रैकर एवं कृषि व्यापार विश्लेषण',
-    agmarknetSync: 'एगमार्कनेट लाइव सिंक',
+    agmarknetSync: 'डेमो डेटा',
     liveBadge: 'ताजा मंडी भाव',
     roles: {
       farmer: '🌾 किसान',
@@ -541,7 +541,7 @@ export const TRANSLATIONS: Record<SupportedLanguage, TranslationDictionary> = {
   pa: {
     appName: 'ਐਗਰੀਮਾਰਕੀਟ ਲਾਈਵ',
     appSubtitle: 'ਮੰਡੀ ਭਾਅ ਟਰੈਕਰ ਅਤੇ ਵਪਾਰ ਵਿਸ਼ਲੇਸ਼ਣ',
-    agmarknetSync: 'ਏਗਮਾਰਕਨੈੱਟ ਸਿੰਕ',
+    agmarknetSync: 'ਡੈਮੋ ਡਾਟਾ',
     liveBadge: 'ਲਾਈਵ ਮੰਡੀ ਭਾਅ',
     roles: {
       farmer: '🌾 ਕਿਸਾਨ',
@@ -678,7 +678,7 @@ export const TRANSLATIONS: Record<SupportedLanguage, TranslationDictionary> = {
   mr: {
     appName: 'ॲग्रीमार्केट लाईव्ह',
     appSubtitle: 'बाजार भाव ट्रॅकर आणि कृषी व्यापार विश्लेषण',
-    agmarknetSync: 'एगमार्कनेट सिंक',
+    agmarknetSync: 'डेमो डेटा',
     liveBadge: 'लाईव्ह बाजार भाव',
     roles: {
       farmer: '🌾 शेतकरी',
@@ -815,7 +815,7 @@ export const TRANSLATIONS: Record<SupportedLanguage, TranslationDictionary> = {
   gu: {
     appName: 'એગ્રીમાર્કેટ લાઈવ',
     appSubtitle: 'માર્કેટ યાર્ડ ભાવ અને કૃષિ વિશ્લેષણ',
-    agmarknetSync: 'એગમાર્કનેટ સિંક',
+    agmarknetSync: 'ડેમો ડેટા',
     liveBadge: 'લાઈવ માર્કેટ ભાવ',
     roles: {
       farmer: '🌾 ખેડૂત',
@@ -952,7 +952,7 @@ export const TRANSLATIONS: Record<SupportedLanguage, TranslationDictionary> = {
   kn: {
     appName: 'ಅಗ್ರಿಮಾರ್ಕೆಟ್ ಲೈವ್',
     appSubtitle: 'ಮಾರುಕಟ್ಟೆ ದರ ಟ್ರ್ಯಾಕರ್ ಮತ್ತು ಕೃಷಿ ವ್ಯಾಪಾರ ವಿಶ್ಲೇಷಣೆ',
-    agmarknetSync: 'ಎಗ್ಮಾರ್ಕ್ನೆಟ್ ಸಿಂಕ್',
+    agmarknetSync: 'ಡೆಮೊ ಡೇಟಾ',
     liveBadge: 'ಲೈವ್ ಎಪಿಎಂಸಿ ದರಗಳು',
     roles: {
       farmer: '🌾 ರೈತ',
@@ -1089,7 +1089,7 @@ export const TRANSLATIONS: Record<SupportedLanguage, TranslationDictionary> = {
   ta: {
     appName: 'அக்ரிமார்க்கெட் லைவ்',
     appSubtitle: 'சந்தை விலை கண்காணிப்பு மற்றும் விவசாய வர்த்தக பகுப்பாய்வு',
-    agmarknetSync: 'அக்மார்க்நெட் நேரலை',
+    agmarknetSync: 'டெமோ தரவு',
     liveBadge: 'நேரடி சந்தை விலை',
     roles: {
       farmer: '🌾 விவசாயி',
@@ -1226,7 +1226,7 @@ export const TRANSLATIONS: Record<SupportedLanguage, TranslationDictionary> = {
   te: {
     appName: 'అగ్రిమార్కెట్ లైవ్',
     appSubtitle: 'మండీ ధరల ట్రాకర్ మరియు వ్యవసాయ వాణిజ్య విశ్లేషణ',
-    agmarknetSync: 'ఎగ్‌మార్క్‌నెట్ సింక్',
+    agmarknetSync: 'డెమో డేటా',
     liveBadge: 'లైవ్ మార్కెట్ ధరలు',
     roles: {
       farmer: '🌾 రైతు',
@@ -1363,7 +1363,7 @@ export const TRANSLATIONS: Record<SupportedLanguage, TranslationDictionary> = {
   bn: {
     appName: 'এগ্রিমার্কেট লাইভ',
     appSubtitle: 'মান্ডি দর ট্র্যাকার এবং কৃষি বাজার বিশ্লেষণ',
-    agmarknetSync: 'এগমार्कনেট সিঙ্ক',
+    agmarknetSync: 'ডেমো ডেটা',
     liveBadge: 'লাইভ মান্ডি দর',
     roles: {
       farmer: '🌾 কৃষক',

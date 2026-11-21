@@ -299,7 +299,7 @@ export const TrendChartSection: React.FC<TrendChartSectionProps> = ({
         {/* Modal Footer */}
         <div className="p-4 bg-slate-50 border-t border-slate-200 flex items-center justify-between text-xs text-slate-500">
           <div>
-            Data source: <strong>AGMARKNET Regulated Mandis Network</strong>
+            Data source: <strong>simulated prices in AGMARKNET format (demo)</strong>
           </div>
           <button
             onClick={onClose}
